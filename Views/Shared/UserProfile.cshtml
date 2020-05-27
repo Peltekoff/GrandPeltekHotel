@@ -1,0 +1,17 @@
+﻿@model UserProfileViewModel
+
+<div class="user-info">
+    <ul>
+        <li>@Model.Email</li>
+        <li>@Model.FirstName</li>
+        <li>@Model.LastName</li>
+        <li>@Model.PhoneNumber</li>
+        @if(Model.NumberOfReservations > 0)
+        {
+            <li>You have @Model.NumberOfReservations booked rooms!</li>
+        }
+    </ul>
+</div>
+<div>
+    <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="EditUserInfo">Edit your user information</a>
+</div>

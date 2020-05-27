@@ -1,0 +1,38 @@
+﻿@model ReservationViewModel
+
+    <form asp-action="Reservation" method="post" class="form-vertical" role="form">
+
+        <div class="form-group">
+            <label asp-for="FromDate">Arrival date:</label>
+            <input asp-for="FromDate" type="date">
+        </div>
+
+        <div class="form-group">
+            <label asp-for="ToDate">Departure date:</label>
+            <input asp-for="ToDate" type="date">
+        </div>
+
+        <label asp-for="CategoryId">Choose a category</label>
+        <select asp-for="CategoryId">
+            <option value="1">Apartment</option>
+            <option value="2">Double-bed room</option>
+            <option value="3">Room with two separate beds</option>
+            <option value="4">Room with three separate beds</option>
+        </select>
+
+        <label asp-for="NumberOfBookedRooms">How many?:</label>
+        <select asp-for="NumberOfBookedRooms">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+        </select>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-5">
+                <button type="submit">Book</button>
+            </div>
+        </div>
+
+    </form>

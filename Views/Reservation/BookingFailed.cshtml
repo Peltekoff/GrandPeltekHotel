@@ -1,0 +1,13 @@
+﻿@model ReservationViewModel
+@if (Model.NumberOfBookedRooms != 0)
+{
+    <div>
+        We're sorry, there are only @Model.NumberOfBookedRooms.ToString() available rooms from the chosen category for your chosen period.
+    </div>
+}
+else
+{
+        <div>
+            We're sorry, there are no available rooms from the chosen category for your chosen period.
+        </div>
+}
