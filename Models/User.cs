@@ -10,7 +10,6 @@ namespace GrandPeltekHotel.Models
 {
     public class User : IdentityUser
     {
-        //public int Id { get; set; }
 
         [Required(ErrorMessage = "Please enter your first name")]
         [Display(Name = "First name")]

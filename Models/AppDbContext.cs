@@ -21,10 +21,7 @@ namespace GrandPeltekHotel.Models
         {
             base.OnModelCreating(modelBuilder);
 
-            //modelBuilder
-            //.Entity<Reservation>()
-            //.Property(e => e.Id)
-            //.ValueGeneratedOnAdd();
+            
 
             modelBuilder.Entity<Category>().HasData(new Category { Id = 1, Name = "Apartments", Description = "Bedroom with a queen-sized bed, living room with a couch, table and fully equpped kitchen" });
             modelBuilder.Entity<Category>().HasData(new Category { Id = 2, Name = "Double-bed rooms", Description = "Bedroom with a queen-sized bed and couch" });

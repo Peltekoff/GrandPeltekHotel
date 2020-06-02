@@ -15,15 +15,16 @@ namespace GrandPeltekHotel.Models
         }
 
         public IEnumerable<User> AllUsers => _appDbContext.Users;
-        
 
-        
 
-        
 
-        public void UpdateUserInfo(User user, out User updatedUser)
+
+
+
+        public void UpdateUserInfo(User user, User loggedInUser, out User updatedUser)
         {
-            User userToBeUpdated = _appDbContext.Users.First(u => u.Id == user.Id);
+
+            User userToBeUpdated = loggedInUser;
 
             userToBeUpdated.Email = user.Email;
             userToBeUpdated.FirstName = user.FirstName;

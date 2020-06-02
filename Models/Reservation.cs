@@ -16,6 +16,5 @@ namespace GrandPeltekHotel.Models
         [ForeignKey("UserId")]
         public User ReservationUser { get; set; }
         public int CategoryId { get; set; }
-        //public int NumberOfBookedRooms { get; set; }
     }
 }

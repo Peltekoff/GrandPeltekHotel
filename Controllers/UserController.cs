@@ -29,52 +29,6 @@ namespace GrandPeltekHotel.Controllers
             _userManager = userManager;
         }
 
-        // GET: /<controller>/
-        public IActionResult Checkout()
-        {
-            return View();
-        }
-
-        //[HttpGet]
-        //public IActionResult LogIn()
-        //{
-        //    return View();
-        //}
-
-        //[HttpPost]
-        //public ViewResult LogIn(User user)
-        //{
-        //    User loginAttemptUser = _appDbContext.Users.First(u => u.Email == user.Email);
-
-        //    if (loginAttemptUser == null)
-        //    {
-        //        ModelState.AddModelError("", "User with this email doesn't exist");
-        //    }
-        //    else
-        //    {
-        //        if (user.Password == loginAttemptUser.Password)
-        //        {
-        //            loginAttemptUser.SignedIn = true;
-        //            return UserProfile(loginAttemptUser);
-        //        }
-        //        else
-        //        {
-        //            ModelState.AddModelError("", "Incorrect password");
-        //        }
-        //    }
-
-        //    return View();
-        //}
-
-        //public User GetCurrentUser()
-        //{
-        //    string userName = HttpContext.User.Identity.Name;
-
-        //    User loggedInUser = _appDbContext.Users.First(u => u.Email == userName);
-
-        //    return loggedInUser;
-        //}
-
 
         [HttpGet]
         public IActionResult Login()
@@ -104,7 +58,6 @@ namespace GrandPeltekHotel.Controllers
         
         public async Task<IActionResult> Logout()
         {
-            //User loggedInUser = _appDbContext.Users.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name);
 
             await _signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
@@ -181,8 +134,9 @@ namespace GrandPeltekHotel.Controllers
         public IActionResult UpdateUserInfo(User user)
         {
             User checkForSameEmail = _appDbContext.Users.First(u => u.Email == user.Email);
+            User loggedInUser = _appDbContext.Users.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name);
 
-            if (_appDbContext.Users != null && checkForSameEmail != null)
+            if (_appDbContext.Users != null && checkForSameEmail != null && checkForSameEmail != loggedInUser)
             {
                 ModelState.AddModelError("", "User with the same email already exists");
             }
@@ -190,14 +144,14 @@ namespace GrandPeltekHotel.Controllers
             if (ModelState.IsValid)
             {
                 
-                _userRepository.UpdateUserInfo(user, out updatedUser);
+                _userRepository.UpdateUserInfo(user, loggedInUser, out updatedUser);
             }
             else
             {
                 updatedUser = user;
             }
 
-            return UserProfile();
+            return RedirectToAction("UserProfile");
         }
     }
 }
