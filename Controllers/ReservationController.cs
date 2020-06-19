@@ -39,29 +39,14 @@ namespace GrandPeltekHotel.Controllers
 
             int numberOfRoomsForChosenCategory = _appDbContext.Rooms.Where(r => r.CategoryId == reservation.CategoryId).Count();
 
-            List<Reservation> reservationsForChosenCategory = new List<Reservation>();
-
-            foreach (Reservation r in _appDbContext.Reservations.Where(r => r.CategoryId == reservation.CategoryId))
-            {
-                reservationsForChosenCategory.Add(r);
-            }
-
             List<Reservation> reservationsForChosenPeriod = new List<Reservation>();
 
-            foreach (Reservation r in reservationsForChosenCategory)
+            foreach (Reservation r in _appDbContext.Reservations.Where(r => r.CategoryId == reservation.CategoryId 
+                                                 && ((r.FromDate >= reservation.FromDate && r.FromDate > reservation.ToDate) ||
+                                                 (r.ToDate >= reservation.FromDate && r.ToDate < reservation.ToDate)) ||
+                                                 (r.FromDate < reservation.FromDate && r.ToDate > reservation.ToDate)))
             {
-                if (reservation.FromDate >= r.FromDate && reservation.FromDate < r.ToDate)
-                {
-                    reservationsForChosenPeriod.Add(r);
-                }
-                else if (reservation.ToDate > r.FromDate)
-                {
-                    reservationsForChosenPeriod.Add(r);
-                }
-                else
-                {
-                    continue;
-                }
+                reservationsForChosenPeriod.Add(r);
             }
 
             if((numberOfRoomsForChosenCategory - reservationsForChosenPeriod.Count) >= reservation.NumberOfBookedRooms)
