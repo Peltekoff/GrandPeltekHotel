@@ -74,6 +74,43 @@ namespace GrandPeltekHotel.Controllers
             }
         }
 
+        [HttpGet]
+        public IActionResult CheckAvailability()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult CheckAvailability(ReservationViewModel model)
+        {
+            int availableRoomsForChosenPeriodForTheCategory;
+
+            int numberOfRoomsInChosenCategory = _appDbContext.Rooms.Where(r => r.CategoryId == model.CategoryId).Count();
+
+            int reservationsForChosenPeriodForTheCategory = _appDbContext.Reservations
+                                                            .Where(r => (r.FromDate > model.FromDate && r.FromDate < model.ToDate)
+                                                            || (r.FromDate < model.FromDate && r.ToDate > model.FromDate)
+                                                            || (r.ToDate > model.FromDate && r.ToDate < model.ToDate)).Count();
+
+            if(numberOfRoomsInChosenCategory > reservationsForChosenPeriodForTheCategory)
+            {
+                availableRoomsForChosenPeriodForTheCategory = numberOfRoomsInChosenCategory - reservationsForChosenPeriodForTheCategory;
+            }
+            else
+            {
+                availableRoomsForChosenPeriodForTheCategory = 0;
+            }
+
+            model.NumberOfBookedRooms = availableRoomsForChosenPeriodForTheCategory;
+
+            return RedirectToAction("ShowAvailability", model);
+        }
+
+        public ViewResult ShowAvailability(ReservationViewModel model)
+        {
+            return View(model);
+        }
+
         public ViewResult BookingSuccessful(ReservationViewModel reservation)
         {
             
